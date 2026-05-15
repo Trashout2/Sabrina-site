@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabrina & Co. — Client Questionnaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0C1A2E;
+    --gold: #C8A96E;
+    --cream: #F5F0E8;
+    --gold-light: #C8A96E18;
+    --gold-border: #C8A96E44;
+    --text: #1a1a1a;
+    --muted: #666;
+    --light-bg: #faf8f4;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── SHARED HEADER ── */
+  .brand-header {
+    text-align: center;
+    background: var(--navy);
+    padding: 2rem 1.5rem 1.8rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .brand-amp { font-style: italic; color: var(--gold); }
+  .brand-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 5px;
+    font-weight: 400;
+  }
+
+  /* ── SERVICE MENU PAGE ── */
+  .menu-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.2rem 3rem; }
+
+  .intro-text {
+    font-size: 17px;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+    line-height: 1.8;
+    margin: 1.8rem 0;
+    padding: 0 1rem;
+  }
+
+  .our-services-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 1.6rem;
+    font-weight: 500;
+  }
+
+  .category { margin-bottom: 2rem; }
+  .cat-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--gold);
+    background: var(--navy);
+    padding: 11px 18px;
+  }
+  .svc-table { width: 100%; border-collapse: collapse; background: #fff; }
+  .svc-table tr { border-bottom: 1px solid #C8A96E15; }
+  .svc-table tr:last-child { border-bottom: none; }
+  .svc-table td {
+    padding: 11px 16px;
+    vertical-align: top;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .svc-table td:first-child {
+    width: 50%;
+    color: var(--navy);
+    font-weight: 600;
+    border-right: 1px solid #C8A96E15;
+  }
+  .svc-table td:last-child { color: var(--muted); font-style: italic; }
+  .diamond { color: var(--gold); margin-right: 7px; font-size: 11px; }
+
+  .tagline {
+    text-align: center;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--gold);
+    margin: 2rem 0 1.8rem;
+  }
+
+  .begin-btn {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    padding: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .begin-btn:hover { opacity: 0.85; }
+
+  .contact-footer {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 1.6rem;
+    letter-spacing: 1px;
+  }
+
+  /* ── QUESTIONNAIRE PAGE ── */
+  .q-wrap { max-width: 580px; margin: 0 auto; padding: 0 1.2rem 3rem; }
+
+  .progress-bar { background: #d8d0c0; height: 3px; }
+  .progress-fill { background: var(--gold); height: 3px; transition: width 0.5s ease; }
+
+  .q-inner { padding: 2rem 0; }
+
+  .back-to-menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 1.6rem;
+    font-weight: 500;
+  }
+  .back-to-menu:hover { opacity: 0.75; }
+
+  .step-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .question {
+    font-size: 22px;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 1.6rem;
+    line-height: 1.4;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: #fff;
+    border: 1px solid var(--gold-border);
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 17px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .opt-btn:hover { border-color: var(--gold); background: #faf6ef; }
+  .opt-btn.selected { border-color: var(--gold); background: #C8A96E; color: #0C1A2E; font-weight: 700; }
+  .opt-btn.multi.selected::before { content: '✓  '; color: #0C1A2E; }
+
+  .text-input {
+    width: 100%;
+    border: 2px solid var(--gold);
+    padding: 16px;
+    font-size: 17px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text);
+    background: #fff;
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+    transition: border-color 0.2s;
+    pointer-events: auto;
+    position: relative;
+    z-index: 10;
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: text;
+  }
+  .text-input.short { min-height: 54px; resize: none; }
+  .text-input:focus { border-color: var(--gold); }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  .nav-btn {
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    padding: 14px 32px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-btn:hover { opacity: 0.85; }
+  .nav-btn.back-btn {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid #ccc;
+  }
+  .nav-btn.back-btn:hover { background: #f0ece4; opacity: 1; }
+  .step-count {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── REVIEW PAGE ── */
+  .review-header { text-align: center; padding: 1.5rem 0 2rem; }
+  .review-title { font-size: 28px; font-weight: 600; color: var(--navy); }
+  .review-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+  .summary-card {
+    background: #fff;
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.2rem;
+    margin-bottom: 10px;
+  }
+  .summary-q {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  .summary-a { font-size: 16px; color: var(--navy); line-height: 1.5; }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    padding: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1.6rem;
+    transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.85; }
+
+  /* ── THANK YOU PAGE ── */
+  .thankyou-wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    text-align: center;
+  }
+  .thankyou-key { margin-bottom: 1.4rem; }
+  .thankyou-title { font-size: 32px; font-weight: 600; color: var(--navy); margin-bottom: 0.8rem; }
+  .thankyou-msg {
+    font-size: 18px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .thankyou-contact {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 480px) {
+    .svc-table td:first-child { width: 55%; font-size: 13px; }
+    .svc-table td:last-child { font-size: 13px; }
+    .question { font-size: 19px; }
+    .opt-btn { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     PAGE 1: SERVICE MENU
+═══════════════════════════════════════════ -->
+<div class="page active" id="page-menu">
+  <div class="brand-header">
+    <div style="margin-bottom:10px;">
+      <svg width="32" height="44" viewBox="0 0 32 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="11" r="9" stroke="#C8A96E" stroke-width="1.4" fill="none"/>
+        <circle cx="16" cy="11" r="4.5" stroke="#C8A96E" stroke-width="1.1" fill="none"/>
+        <line x1="16" y1="20" x2="16" y2="42" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="16" y1="30" x2="22" y2="30" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="16" y1="37" x2="21" y2="37" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand-name">Sabrina <span class="brand-amp">&</span> Co.</div>
+    <div class="brand-sub">Private Home &amp; Lifestyle Concierge</div>
+  </div>
+
+  <div class="menu-wrap">
+    <p class="intro-text">Sabrina &amp; Co. provides white-glove concierge support for the details of everyday life — so you can focus on what matters most. From errands and home management to property care and personal lifestyle services, we handle it all with discretion, care, and a personal touch.</p>
+
+    <div class="our-services-title">Our Services</div>
+
+    <div class="category">
+      <div class="cat-title">01 &nbsp;·&nbsp; Lifestyle &amp; Errand Services</div>
+      <table class="svc-table">
+        <tr><td><span class="diamond">◆</span>Grocery &amp; Specialty Shopping</td><td>Stocked fridge, farmers markets, specialty stores &amp; more</td></tr>
+        <tr><td><span class="diamond">◆</span>Prescription &amp; Pharmacy Pickup</td><td>Timely medication retrieval and delivery</td></tr>
+        <tr><td><span class="diamond">◆</span>Dry Cleaning &amp; Laundry</td><td>Drop-off, pickup, and door-to-door delivery</td></tr>
+        <tr><td><span class="diamond">◆</span>Gift Sourcing &amp; Wrapping</td><td>Thoughtful gifts curated, wrapped, and delivered</td></tr>
+        <tr><td><span class="diamond">◆</span>Post Office &amp; Bank Errands</td><td>Shipping, returns, deposits, and paperwork handled</td></tr>
+        <tr><td><span class="diamond">◆</span>Event &amp; Party Support</td><td>Setup, coordination, supply runs, and breakdown</td></tr>
+        <tr><td><span class="diamond">◆</span>Vehicle Services</td><td>Car wash, detailing, oil changes, and DMV visits</td></tr>
+        <tr><td><span class="diamond">◆</span>Meal Prep &amp; Delivery Coordination</td><td>Meal kit pickups, restaurant orders, and local catering</td></tr>
+      </table>
+    </div>
+
+    <div class="category">
+      <div class="cat-title">02 &nbsp;·&nbsp; Home Management</div>
+      <table class="svc-table">
+        <tr><td><span class="diamond">◆</span>Vendor Scheduling &amp; Oversight</td><td>Coordinate and supervise contractors, cleaners &amp; repairs</td></tr>
+        <tr><td><span class="diamond">◆</span>Home Walkthrough &amp; Inspection</td><td>Regular property checks and detailed condition reports</td></tr>
+        <tr><td><span class="diamond">◆</span>Decluttering &amp; Organization</td><td>Closets, garages, kitchens — every space simplified</td></tr>
+        <tr><td><span class="diamond">◆</span>Package &amp; Mail Management</td><td>Receive, sort, and forward deliveries on your behalf</td></tr>
+        <tr><td><span class="diamond">◆</span>Seasonal Home Prep</td><td>Holiday décor, weather prep, and storage rotation</td></tr>
+        <tr><td><span class="diamond">◆</span>Move-In / Move-Out Support</td><td>Unpacking, setup, donations, and supply sourcing</td></tr>
+        <tr><td><span class="diamond">◆</span>Plant &amp; Pet Care Coordination</td><td>Watering schedules, pet sitters, and vet appointments</td></tr>
+        <tr><td><span class="diamond">◆</span>Smart Home Assistance</td><td>Device setup, troubleshooting, and tech coordination</td></tr>
+      </table>
+    </div>
+
+    <div class="category">
+      <div class="cat-title">03 &nbsp;·&nbsp; Property &amp; Second Home Services</div>
+      <table class="svc-table">
+        <tr><td><span class="diamond">◆</span>Pre-Arrival Home Preparation</td><td>Stocked, clean, and guest-ready before you arrive</td></tr>
+        <tr><td><span class="diamond">◆</span>Post-Departure Closure</td><td>Securing, restocking, and readying for your return</td></tr>
+        <tr><td><span class="diamond">◆</span>Routine Property Checks</td><td>Scheduled visits with detailed status reports</td></tr>
+        <tr><td><span class="diamond">◆</span>Vendor &amp; Maintenance Coordination</td><td>Trusted local professionals managed on your behalf</td></tr>
+        <tr><td><span class="diamond">◆</span>Rental Turnover Support</td><td>Cleaning coordination, restocking, and inspection</td></tr>
+        <tr><td><span class="diamond">◆</span>Emergency Response Coordination</td><td>On-call for urgent home issues when you are away</td></tr>
+        <tr><td><span class="diamond">◆</span>Landscape &amp; Pool Oversight</td><td>Scheduling and supervision of exterior maintenance</td></tr>
+        <tr><td><span class="diamond">◆</span>Seasonal Opening &amp; Closing</td><td>Full property prep for seasonal transitions</td></tr>
+      </table>
+    </div>
+
+    <div class="category">
+      <div class="cat-title">04 &nbsp;·&nbsp; Personal &amp; Lifestyle Management</div>
+      <table class="svc-table">
+        <tr><td><span class="diamond">◆</span>Appointment Scheduling</td><td>Medical, wellness, beauty, and personal service bookings</td></tr>
+        <tr><td><span class="diamond">◆</span>Restaurant &amp; Experience Reservations</td><td>Dining, events, and local experiences arranged</td></tr>
+        <tr><td><span class="diamond">◆</span>Travel Logistics Support</td><td>Itineraries, packing lists, and pre-trip preparation</td></tr>
+        <tr><td><span class="diamond">◆</span>Personal Shopping &amp; Returns</td><td>Clothing, home goods, and specialty item sourcing</td></tr>
+        <tr><td><span class="diamond">◆</span>Household Staffing Coordination</td><td>Vetting and scheduling household service providers</td></tr>
+        <tr><td><span class="diamond">◆</span>Concierge Liaison Services</td><td>Acting as your personal point of contact for third parties</td></tr>
+        <tr><td><span class="diamond">◆</span>Wellness &amp; Self-Care Scheduling</td><td>Spa, fitness, and personal care appointments</td></tr>
+        <tr><td><span class="diamond">◆</span>Special Occasion Planning Support</td><td>Birthdays, anniversaries, and milestone events</td></tr>
+      </table>
+    </div>
+
+    <div class="tagline">No task too big, no detail too small — custom services available upon request.</div>
+    <button class="begin-btn" onclick="showQuestionnaire()">Begin Questionnaire →</button>
+    <div class="contact-footer" style="margin-top:1.4rem;">949.200.1300 &nbsp;·&nbsp; sabrina@sabrinaconcierge.com &nbsp;·&nbsp; sabrinaconcierge.com</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 2: QUESTIONNAIRE
+═══════════════════════════════════════════ -->
+<div class="page" id="page-questions">
+  <div class="brand-header">
+    <div style="margin-bottom:10px;">
+      <svg width="32" height="44" viewBox="0 0 32 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="11" r="9" stroke="#C8A96E" stroke-width="1.4" fill="none"/>
+        <circle cx="16" cy="11" r="4.5" stroke="#C8A96E" stroke-width="1.1" fill="none"/>
+        <line x1="16" y1="20" x2="16" y2="42" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="16" y1="30" x2="22" y2="30" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="16" y1="37" x2="21" y2="37" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand-name">Sabrina <span class="brand-amp">&</span> Co.</div>
+    <div class="brand-sub">Client Questionnaire</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+
+  <div class="q-wrap">
+    <div class="q-inner" id="q-body"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 3: THANK YOU
+═══════════════════════════════════════════ -->
+<div class="page" id="page-thankyou">
+  <div class="brand-header">
+    <div style="margin-bottom:10px;">
+      <svg width="32" height="44" viewBox="0 0 32 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="11" r="9" stroke="#C8A96E" stroke-width="1.4" fill="none"/>
+        <circle cx="16" cy="11" r="4.5" stroke="#C8A96E" stroke-width="1.1" fill="none"/>
+        <line x1="16" y1="20" x2="16" y2="42" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="16" y1="30" x2="22" y2="30" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="16" y1="37" x2="21" y2="37" stroke="#C8A96E" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand-name">Sabrina <span class="brand-amp">&</span> Co.</div>
+    <div class="brand-sub">Private Home &amp; Lifestyle Concierge</div>
+  </div>
+  <div class="thankyou-wrap">
+    <div class="thankyou-title">Thank You!</div>
+    <p class="thankyou-msg">Your questionnaire has been received. Sabrina will personally review your responses and be in touch within 24 hours to discuss how we can give you your time back.</p>
+    <div class="thankyou-contact">949.200.1300 &nbsp;·&nbsp; sabrina@sabrinaconcierge.com</div>
+  </div>
+</div>
+
+
+<script>
+const answers = {};
+let current = 0;
+let advancing = false;
+
+const steps = [
+  { id:'name', type:'text', short:true, section:'Getting started', q:'What is your full name?' },
+  { id:'email', type:'email', short:true, section:'Getting started', q:'What is your email address?' },
+  { id:'household', type:'single', section:'About you', q:'Which best describes your household?', opts:['Single professional','Couple','Family','Family with children at home','Second-home owner','Frequent traveler','All of the above'] },
+  { id:'pain', type:'text', short:false, section:'Your situation', q:'What is currently taking up most of your time or energy?' },
+  { id:'hours', type:'single', section:'Your situation', q:'Approximately how many hours per week do you spend on tasks you wish someone else could handle?', opts:['1\u20133 hours','4\u20137 hours','8\u201315 hours','15+ hours'] },
+  { id:'stress', type:'single', section:'Your situation', q:'How stressed do you feel managing home and personal logistics right now?', opts:['Very stressed','Somewhat stressed','Occasionally overwhelmed','Managing fine, but need support'] },
+  { id:'overwhelming', type:'multi', section:'Your situation', q:'Which areas of your life feel the most overwhelming? Select all that apply.', opts:['Home organization','Scheduling & appointments','Grocery shopping & errands','Laundry & household upkeep','Vendor coordination','Travel preparation','Managing a second home','Family logistics','Move-in / setup support','General household management'] },
+  { id:'services', type:'multi', section:'What you need', q:'Which services are you most interested in? Select all that apply.', opts:['Home organization','Lifestyle concierge support','Vendor management','Grocery shopping & errands','Scheduling & appointments','Move-in assistance','Second-home management','Travel & arrival preparation','Laundry & household support','Event & guest preparation'] },
+  { id:'travel', type:'single', section:'Your lifestyle', q:'Do you travel frequently or need home management while you are away?', opts:['Yes','Occasionally','No'] },
+  { id:'groceries', type:'single', section:'Your lifestyle', q:'Would support with groceries or kitchen organization make your week easier?', opts:['Grocery shopping','Refrigerator stocking before arrival','Pantry & refrigerator organization','Prepared meal coordination','Not needed at this time'] },
+  { id:'before', type:'single', section:'Your experience', q:'Have you ever worked with a concierge, organizer, or personal assistant before?', opts:['Yes','No','Looking for help for the first time'] },
+  { id:'offplate', type:'text', short:false, section:'Your priorities', q:'What is the one thing you most want off your plate right now?' },
+  { id:'first', type:'text', short:false, section:'Your priorities', q:'If someone could take 3 to 5 hours of stress off your plate each week, what would you want handled first?' },
+  { id:'success', type:'text', short:false, section:'Your priorities', q:'What would success look like for you 30 days from now?' },
+  { id:'timeback', type:'text', short:false, section:'Your priorities', q:'What would make you feel like you finally have your time back?' },
+  { id:'matters', type:'multi', section:'Working together', q:'What matters most when choosing someone to help? Select all that apply.', opts:['Trustworthiness','Reliability','Communication','Attention to detail','Organization','Efficiency','Warm personality','Discretion'] },
+  { id:'frequency', type:'single', section:'Working together', q:'How often do you think you would need support?', opts:['One-time project','As-needed help','Weekly support','Ongoing household / lifestyle management','Not sure yet'] },
+  { id:'communicate', type:'single', section:'Working together', q:'How do you prefer to communicate?', opts:['Text','Phone','Email'] },
+  { id:'start', type:'single', section:'Working together', q:'When are you looking to get started?', opts:['Immediately','Within the next few weeks','Within 1 to 2 months','Just exploring options right now'] },
+  { id:'additional', type:'text', short:false, section:'Anything else?', q:'Do you have any additional requests or needs? Is there anything else you would like to share with us?' },
+  { id:'review', type:'review' }
+];
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showQuestionnaire() {
+  current = 0;
+  showPage('page-questions');
+  setTimeout(function() { render(); }, 50);
+}
+
+function multiAnswers(id) {
+  return Array.isArray(answers[id]) ? answers[id] : (answers[id] ? [answers[id]] : []);
+}
+
+function saveText() {
+  var el = document.getElementById('txt');
+  if (el) answers[steps[current].id] = el.value;
+}
+
+function render() {
+  var step = steps[current];
+  var total = steps.length - 1;
+  var pct = Math.round((current / total) * 100);
+  var progressEl = document.getElementById('progress');
+  if (progressEl) progressEl.style.width = pct + '%';
+  var body = document.getElementById('q-body');
+  if (!body) { setTimeout(render, 100); return; }
+
+  if (step.type === 'review') {
+    var reviewHtml = '<div class="review-header"><div class="review-title">Almost Done</div><div class="review-sub">Review your responses below, then submit when ready.</div></div>';
+    steps.filter(function(s) { return s.type !== 'review'; }).forEach(function(s) {
+      var a = Array.isArray(answers[s.id]) ? answers[s.id].join(', ') : (answers[s.id] || '\u2014');
+      reviewHtml += '<div class="summary-card"><div class="summary-q">' + s.q + '</div><div class="summary-a">' + a + '</div></div>';
+    });
+    reviewHtml += '<button class="submit-btn" onclick="submitForm()">Submit to Sabrina &amp; Co.</button>';
+    reviewHtml += '<div id="submit-error" style="display:none;margin-top:1rem;color:#c0392b;font-family:Montserrat,sans-serif;font-size:11px;text-align:center;letter-spacing:1px;">Something went wrong. Please check your connection and try again.</div>';
+    reviewHtml += '<div style="margin-top:1rem;"><button class="nav-btn back-btn" onclick="go(-1)">\u2190 Edit answers</button></div>';
+    reviewHtml += '<div class="contact-footer" style="margin-top:1.6rem;">949.200.1300 &middot; sabrina@sabrinaconcierge.com &middot; sabrinaconcierge.com</div>';
+    body.innerHTML = reviewHtml;
+    return;
+  }
+
+  var isMulti = step.type === 'multi';
+  var sel = isMulti ? multiAnswers(step.id) : (answers[step.id] || '');
+
+  var html = "<button class='back-to-menu' onclick=\"showPage('page-menu')\">← View service menu</button>";
+  html += '<div class="step-label">' + step.section + '</div>';
+  html += '<div class="question">' + step.q + '</div>';
+
+  if (step.type === 'text' || step.type === 'email') {
+    var inputType = step.type === 'email' ? 'email' : 'textarea';
+    if (step.type === 'email') {
+      html += '<input type="email" class="text-input short" id="txt" placeholder="your@email.com" value="' + (answers[step.id] || '') + '" style="display:block;">';
+    } else {
+      html += '<textarea class="text-input ' + (step.short ? 'short' : '') + '" id="txt" placeholder="Type your answer here...">' + (answers[step.id] || '') + '</textarea>';
+    }
+  } else {
+    html += '<div class="options">';
+    step.opts.forEach(function(o) {
+      var isSelected = isMulti ? (sel.indexOf(o) > -1) : (sel === o);
+      var safeVal = o.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      html += '<button class="opt-btn' + (isMulti ? ' multi' : '') + (isSelected ? ' selected' : '') + '" onclick="pick(\'' + safeVal + '\', ' + isMulti + ')">' + o + '</button>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div class="nav">';
+  if (current > 0) {
+    html += '<button class="nav-btn back-btn" onclick="go(-1)">\u2190 Back</button>';
+  } else {
+    html += '<span></span>';
+  }
+  html += '<span class="step-count">' + (current + 1) + ' of ' + total + '</span>';
+  html += '<button class="nav-btn" onclick="next()">Next \u2192</button>';
+  html += '</div>';
+
+  body.innerHTML = html;
+}
+
+function pick(val, isMulti) {
+  if (isMulti) {
+    var arr = multiAnswers(steps[current].id);
+    var idx = arr.indexOf(val);
+    if (idx > -1) {
+      arr.splice(idx, 1);
+    } else {
+      arr.push(val);
+    }
+    answers[steps[current].id] = arr.slice();
+    render();
+  } else {
+    answers[steps[current].id] = val;
+    render();
+  }
+}
+
+function next() {
+  saveText();
+  go(1);
+}
+
+function go(dir) {
+  saveText();
+  current += dir;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function submitForm() {
+  var btn = document.querySelector('.submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  var payload = { _subject: 'New Client Intake — Sabrina & Co.' };
+  steps.filter(function(s) { return s.type !== 'review'; }).forEach(function(s) {
+    var a = Array.isArray(answers[s.id]) ? answers[s.id].join(', ') : (answers[s.id] || '—');
+    payload[s.id] = a;
+  });
+
+  fetch('https://formspree.io/f/mvzlyrpb', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+  }).then(function(response) {
+    if (response.ok) {
+      showPage('page-thankyou');
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = 'Submit to Sabrina & Co.'; }
+      var err = document.getElementById('submit-error');
+      if (err) err.style.display = 'block';
+    }
+  }).catch(function() {
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit to Sabrina & Co.'; }
+    var err = document.getElementById('submit-error');
+    if (err) err.style.display = 'block';
+  });
+}
+</script>
+</body>
+</html>
